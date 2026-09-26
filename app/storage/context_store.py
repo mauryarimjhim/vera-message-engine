@@ -22,11 +22,8 @@ class ContextStore:
             existing = self._contexts.get(key)
             if existing:
                 cur_ver = existing["version"]
-                if cur_ver == version:
-                    # Idempotent re-post of same version
-                    return True, f"ack_{context_id}_v{version}", cur_ver
-                elif cur_ver > version:
-                    # Stale lower version
+                if cur_ver >= version:
+                    # Same or lower version: stale per challenge-testing-brief reference impl
                     return False, "stale_version", cur_ver
 
             self._contexts[key] = {
