@@ -51,7 +51,9 @@ class PharmaciesCategoryHandler(BaseCategoryHandler):
             up = [t for t in trends if t.get("pct", 0) > 0]
             down = [t for t in trends if t.get("pct", 0) < 0]
             up_txt = ", ".join(f"{t['product']} +{t['pct']}%" for t in up[:3])
-            down_txt = f" while {', '.join(f'{t['product']} {t['pct']}%' for t in down[:1])}" if down else ""
+            down_txt = ""
+            if down:
+                down_txt = " while " + ", ".join(f"{t['product']} {t['pct']}%" for t in down[:1])
             body = f"Namaste {name}, {season} demand data for your area: {up_txt}{down_txt}. Suggested shelf action: front-stock the rising items and cut cold-cough facing space. Want me to draft the shelf plan + a Google post highlighting your in-demand items?"
             cta = "binary_yes_no"
         elif signal_type == "gbp_unverified":
